@@ -9,7 +9,7 @@
 [License Status]: https://app.fossa.com/api/projects/git%2Bgithub.com%2FMomoLangenstein%2Fgrim-reaper.svg?type=shield
 [fossa]: https://app.fossa.com/projects/git%2Bgithub.com%2FMomoLangenstein%2Fgrim-reaper?ref=badge_shield
 
-[Code Coverage]: https://img.shields.io/codecov/c/github/MomoLangenstein/grim-reaper?token=DCT0WVLU5V
+[Code Coverage]: https://img.shields.io/codecov/c/github/MomoLangenstein/grim-reaper?token=6F3K1L1PO4
 [codecov]: https://codecov.io/gh/MomoLangenstein/grim-reaper
 
 [Gitpod Ready-to-Code]: https://img.shields.io/badge/Gitpod-ready-blue?logo=gitpod
