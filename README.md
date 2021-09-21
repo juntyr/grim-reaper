@@ -15,6 +15,14 @@
 [Gitpod Ready-to-Code]: https://img.shields.io/badge/Gitpod-ready-blue?logo=gitpod
 [gitpod]: https://gitpod.io/#https://github.com/MomoLangenstein/grim-reaper
 
+`grim-reaper` is a Linux-only wrapper program that forwards signals to all its descendants as even when the signal is only sent to the wrapper itself. In particular, this means that a program with a deep process tree can be cleanly sigkilled.
+
+## Usage
+
+```shell
+grim-reaper <PROGRAM> <ARGS...>
+```
+
 ## License
 
 Licensed under either of
