@@ -1,0 +1,98 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - '*'
+  schedule:
+    - cron: '0 0 * * *'
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  check:
+    name: Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the Repository
+        uses: actions/checkout@v2
+
+      - name: Install the Rust toolchain
+        run: cargo
+
+      - name: Check without default features
+        run: |
+          cargo check \
+            --no-default-features
+
+      - name: Check with the default features
+        run: |
+          cargo check
+
+      - name: Check with all features
+        run: |
+          cargo check \
+            --all-features
+
+  test:
+    name: Test Suite
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the Repository
+        uses: actions/checkout@v2
+
+      - name: Install the Rust toolchain
+        run: cargo
+      
+      - name: Run the test-suite
+        run: |
+          cargo test --workspace --no-fail-fast
+
+  fmt:
+    name: Rustfmt
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the Repository
+        uses: actions/checkout@v2
+
+      - name: Install the Rust toolchain
+        run: cargo
+
+      - name: Check the code formatting
+        run: cargo fmt --all -- --check
+
+  clippy:
+    name: Clippy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the Repository
+        uses: actions/checkout@v2
+
+      - name: Install the Rust toolchain
+        run: cargo
+
+      - name: Check the code style without default features
+        run: |
+          cargo clippy \
+            --no-default-features \
+            -- -D warnings
+
+      - name: Check the code style with the default features
+        run: |
+          cargo clippy \
+            -- -D warnings
+
+      - name: Check the code style with all features
+        run: |
+          cargo clippy \
+            --all-features \
+            -- -D warnings
+
+      - name: Check the code style without features on CPU
+        run: |
+          cargo clippy \
+            -- -D warnings

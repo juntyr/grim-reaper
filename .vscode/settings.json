@@ -1,0 +1,5 @@
+{
+    "crates.localCargoIndexBranch": "origin/HEAD",
+    "rust-analyzer.updates.askBeforeDownload": false,
+    "rust-analyzer.checkOnSave.command": "clippy",
+}
