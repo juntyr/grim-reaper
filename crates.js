@@ -1,1 +1,1 @@
-window.ALL_CRATES = ["grim_reaper"];
+window.ALL_CRATES = ["cargo_reaper","grim_reaper","lib_grim_reaper"];

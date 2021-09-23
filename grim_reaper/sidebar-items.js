@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["main",""]]});
+initSidebarItems({"fn":[["cstring_from_osstr",""],["main",""]],"struct":[["GrimReaper",""]]});
