@@ -1,34 +1,16 @@
 #![deny(clippy::pedantic)]
 
-use std::{cmp::Ordering, ffi::CString, os::unix::prelude::OsStrExt};
+use std::{cmp::Ordering, ffi::CString};
 
 use anyhow::Context;
 use fork::{fork, Fork};
 use signal_hook::iterator::Signals;
 
 #[allow(clippy::too_many_lines)]
-fn main() -> anyhow::Result<()> {
-    pretty_env_logger::init();
-
-    let mut args = std::env::args_os().skip(1).peekable();
-
-    let program = match args.peek() {
-        Some(program) => CString::new(program.as_bytes().to_owned())
-            .with_context(|| format!("Program name {:?} is not a valid program name.", program))?,
-        None => return Ok(()),
-    };
-
-    let args = args
-        .map(|arg| {
-            CString::new(arg.as_bytes().to_owned()).with_context(|| {
-                format!(
-                    "Program argument {:?} is not a valid program argument.",
-                    arg
-                )
-            })
-        })
-        .collect::<Result<Vec<_>, _>>()?;
-
+/// # Errors
+///
+/// Returns an `anyhow::Error` if spawning or executing the reaper fails.
+pub fn exec_reaper(program: &CString, args: &[CString]) -> anyhow::Result<()> {
     let canary_pid = unsafe { libc::getpid() };
 
     match fork()
@@ -220,8 +202,9 @@ fn main() -> anyhow::Result<()> {
                         args
                     );
 
-                    let mut args: Vec<*const libc::c_char> =
-                        args.iter().map(|s| s.as_ptr()).collect();
+                    let mut args: Vec<*const libc::c_char> = std::iter::once(program.as_ptr())
+                        .chain(args.iter().map(|s| s.as_ptr()))
+                        .collect();
                     args.push(std::ptr::null());
 
                     // `execvp` only returns on error

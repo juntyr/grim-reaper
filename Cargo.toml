@@ -1,9 +1,9 @@
 [workspace]
-members = ["."]
-default-members = ["."]
+members = [".", "grim-reaper", "cargo-reaper"]
+default-members = [".", "grim-reaper", "cargo-reaper"]
 
 [package]
-name = "grim-reaper"
+name = "lib-grim-reaper"
 version = "0.1.0"
 authors = ["Momo Langenstein <momo.langenstein@helsinki.fi>"]
 license = "MIT OR Apache-2.0"
@@ -20,4 +20,6 @@ libc = "0.2"
 signal-hook = "0.3"
 
 log = "0.4"
-pretty_env_logger = "0.4"
+
+pretty_env_logger = { version = "0.4", optional = true }
+structopt = { version = "0.3", optional = true }

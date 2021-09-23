@@ -34,16 +34,16 @@ jobs:
 
       - name: Check without default features
         run: |
-          cargo check \
+          cargo check --all \
             --no-default-features
 
       - name: Check with the default features
         run: |
-          cargo check
+          cargo check --all
 
       - name: Check with all features
         run: |
-          cargo check \
+          cargo check --all \
             --all-features
 
   test:
@@ -107,22 +107,22 @@ jobs:
 
       - name: Check the code style without default features
         run: |
-          cargo clippy \
+          cargo clippy --all \
             --no-default-features \
             -- -D warnings
 
       - name: Check the code style with the default features
         run: |
-          cargo clippy \
+          cargo clippy --all \
             -- -D warnings
 
       - name: Check the code style with all features
         run: |
-          cargo clippy \
+          cargo clippy --all \
             --all-features \
             -- -D warnings
 
       - name: Check the code style without features on CPU
         run: |
-          cargo clippy \
+          cargo clippy --all \
             -- -D warnings
