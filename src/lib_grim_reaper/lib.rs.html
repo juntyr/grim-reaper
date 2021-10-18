@@ -229,14 +229,14 @@
 <span class="doccomment">/// # Errors</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Returns an `anyhow::Error` if spawning or executing the reaper fails.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">exec_reaper</span>(<span class="ident">program</span>: <span class="kw-2">&amp;</span><span class="ident">CString</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">CString</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">anyhow::Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">exec_reaper</span>(<span class="ident">program</span>: <span class="kw-2">&amp;</span><span class="ident">CString</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">CString</span>]) -&gt; <span class="ident">anyhow::Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">canary_pid</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">libc::getpid</span>() };
 
     <span class="kw">match</span> <span class="ident">fork</span>()
         .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">std::io::Error::last_os_error</span>())
         .<span class="ident">context</span>(<span class="string">&quot;Failed to fork the wrapper into the canary and handler.&quot;</span>)<span class="question-mark">?</span>
     {
-        <span class="ident">Fork::Parent</span>(<span class="ident">handler_pid</span>) <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="ident">Fork::Parent</span>(<span class="ident">handler_pid</span>) =&gt; {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">signals</span> <span class="op">=</span> <span class="ident">Signals::new</span>(
                 (<span class="number">1</span>..<span class="number">32</span>).<span class="ident">filter</span>(<span class="op">|</span><span class="ident">signal</span><span class="op">|</span> <span class="op">!</span><span class="ident">signal_hook::consts::FORBIDDEN</span>.<span class="ident">contains</span>(<span class="ident">signal</span>)),
             )
@@ -246,12 +246,12 @@
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">status</span> <span class="op">=</span> <span class="number">0</span>;
 
                 <span class="kw">match</span> <span class="kw">unsafe</span> { <span class="ident">libc::waitpid</span>(<span class="ident">handler_pid</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">status</span>, <span class="ident">libc::WNOHANG</span>) }.<span class="ident">cmp</span>(<span class="kw-2">&amp;</span><span class="number">0</span>) {
-                    <span class="ident">Ordering::Less</span> <span class="op">=</span><span class="op">&gt;</span> {
+                    <span class="ident">Ordering::Less</span> =&gt; {
                         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">std::io::Error::last_os_error</span>())
                             .<span class="ident">context</span>(<span class="string">&quot;Failed to wait for the handler to terminate.&quot;</span>)
                     },
-                    <span class="ident">Ordering::Equal</span> <span class="op">=</span><span class="op">&gt;</span> (),
-                    <span class="ident">Ordering::Greater</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">break</span> <span class="ident">libc::WEXITSTATUS</span>(<span class="ident">status</span>),
+                    <span class="ident">Ordering::Equal</span> =&gt; (),
+                    <span class="ident">Ordering::Greater</span> =&gt; <span class="kw">break</span> <span class="ident">libc::WEXITSTATUS</span>(<span class="ident">status</span>),
                 };
 
                 <span class="kw">for</span> <span class="ident">signal</span> <span class="kw">in</span> <span class="ident">signals</span>.<span class="ident">wait</span>() {
@@ -283,19 +283,19 @@
 
             <span class="ident">std::process::exit</span>(<span class="ident">status</span>);
         },
-        <span class="ident">Fork::Child</span> <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="ident">Fork::Child</span> =&gt; {
             <span class="kw">let</span> <span class="ident">handler_pid</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">libc::getpid</span>() };
 
             <span class="kw">unsafe</span> {
-                <span class="kw">if</span> <span class="ident">libc::prctl</span>(<span class="ident">libc::PR_SET_PDEATHSIG</span>, <span class="ident">libc::SIGCHLD</span>) <span class="op">=</span><span class="op">=</span> <span class="op">-</span><span class="number">1</span> {
+                <span class="kw">if</span> <span class="ident">libc::prctl</span>(<span class="ident">libc::PR_SET_PDEATHSIG</span>, <span class="ident">libc::SIGCHLD</span>) <span class="op">==</span> <span class="op">-</span><span class="number">1</span> {
                     <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">std::io::Error::last_os_error</span>())
                         .<span class="ident">context</span>(<span class="string">&quot;Failed to setup the death signal in the handler.&quot;</span>);
                 }
-                <span class="kw">if</span> <span class="ident">libc::setsid</span>() <span class="op">=</span><span class="op">=</span> <span class="op">-</span><span class="number">1</span> {
+                <span class="kw">if</span> <span class="ident">libc::setsid</span>() <span class="op">==</span> <span class="op">-</span><span class="number">1</span> {
                     <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">std::io::Error::last_os_error</span>())
                         .<span class="ident">context</span>(<span class="string">&quot;Failed to create a new process group for the handler.&quot;</span>);
                 }
-                <span class="kw">if</span> <span class="ident">libc::prctl</span>(<span class="ident">libc::PR_SET_CHILD_SUBREAPER</span>, <span class="number">1</span>) <span class="op">=</span><span class="op">=</span> <span class="op">-</span><span class="number">1</span> {
+                <span class="kw">if</span> <span class="ident">libc::prctl</span>(<span class="ident">libc::PR_SET_CHILD_SUBREAPER</span>, <span class="number">1</span>) <span class="op">==</span> <span class="op">-</span><span class="number">1</span> {
                     <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">std::io::Error::last_os_error</span>())
                         .<span class="ident">context</span>(<span class="string">&quot;Failed to make the handler a sub-reaper for its descendants.&quot;</span>);
                 }
@@ -321,19 +321,19 @@
                 .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">std::io::Error::last_os_error</span>())
                 .<span class="ident">context</span>(<span class="string">&quot;Failed to fork the wrapper into the handler and worker.&quot;</span>)<span class="question-mark">?</span>
             {
-                <span class="ident">Fork::Parent</span>(<span class="ident">worker_pid</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Fork::Parent</span>(<span class="ident">worker_pid</span>) =&gt; {
                     <span class="kw">let</span> <span class="ident">status</span> <span class="op">=</span> <span class="lifetime">&#39;outer</span>: <span class="kw">loop</span> {
                         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">status</span> <span class="op">=</span> <span class="number">0</span>;
 
                         <span class="kw">match</span> <span class="kw">unsafe</span> { <span class="ident">libc::waitpid</span>(<span class="ident">worker_pid</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">status</span>, <span class="ident">libc::WNOHANG</span>) }
                             .<span class="ident">cmp</span>(<span class="kw-2">&amp;</span><span class="number">0</span>)
                         {
-                            <span class="ident">Ordering::Less</span> <span class="op">=</span><span class="op">&gt;</span> {
+                            <span class="ident">Ordering::Less</span> =&gt; {
                                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">std::io::Error::last_os_error</span>())
                                     .<span class="ident">context</span>(<span class="string">&quot;Failed to wait for the worker to terminate.&quot;</span>)
                             },
-                            <span class="ident">Ordering::Equal</span> <span class="op">=</span><span class="op">&gt;</span> (),
-                            <span class="ident">Ordering::Greater</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">break</span> <span class="ident">status</span>,
+                            <span class="ident">Ordering::Equal</span> =&gt; (),
+                            <span class="ident">Ordering::Greater</span> =&gt; <span class="kw">break</span> <span class="ident">status</span>,
                         };
 
                         <span class="kw">for</span> <span class="ident">signal</span> <span class="kw">in</span> <span class="ident">signals</span>.<span class="ident">wait</span>() {
@@ -407,10 +407,10 @@
 
                     <span class="ident">std::process::exit</span>(<span class="ident">status</span>);
                 },
-                <span class="ident">Fork::Child</span> <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="ident">Fork::Child</span> =&gt; {
                     <span class="kw">let</span> <span class="ident">worker_pid</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">libc::getpid</span>() };
 
-                    <span class="kw">if</span> <span class="kw">unsafe</span> { <span class="ident">libc::setsid</span>() } <span class="op">=</span><span class="op">=</span> <span class="op">-</span><span class="number">1</span> {
+                    <span class="kw">if</span> <span class="kw">unsafe</span> { <span class="ident">libc::setsid</span>() } <span class="op">==</span> <span class="op">-</span><span class="number">1</span> {
                         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">std::io::Error::last_os_error</span>())
                             .<span class="ident">context</span>(<span class="string">&quot;Failed to create a new process group for the worker.&quot;</span>);
                     }
