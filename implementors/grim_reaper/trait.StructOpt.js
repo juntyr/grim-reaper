@@ -1,0 +1,3 @@
+(function() {var implementors = {};
+implementors["grim_reaper"] = [{"text":"impl <a class=\"trait\" href=\"grim_reaper/trait.StructOpt.html\" title=\"trait grim_reaper::StructOpt\">StructOpt</a> for <a class=\"struct\" href=\"grim_reaper/struct.GrimReaper.html\" title=\"struct grim_reaper::GrimReaper\">GrimReaper</a>","synthetic":false,"types":["grim_reaper::GrimReaper"]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

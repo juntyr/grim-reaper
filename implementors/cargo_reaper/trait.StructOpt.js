@@ -1,0 +1,3 @@
+(function() {var implementors = {};
+implementors["cargo_reaper"] = [{"text":"impl <a class=\"trait\" href=\"cargo_reaper/trait.StructOpt.html\" title=\"trait cargo_reaper::StructOpt\">StructOpt</a> for <a class=\"enum\" href=\"cargo_reaper/enum.Cmd.html\" title=\"enum cargo_reaper::Cmd\">Cmd</a>","synthetic":false,"types":["cargo_reaper::Cmd"]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
