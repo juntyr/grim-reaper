@@ -1,1 +1,1 @@
-initSidebarItems({"fn":[["exec_reaper","Errors"]]});
+window.SIDEBAR_ITEMS = {"fn":[["exec_reaper","Errors"]]};
