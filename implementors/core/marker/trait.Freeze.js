@@ -1,4 +1,4 @@
-(function() {var implementors = {};
-implementors["cargo_reaper"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/marker/trait.Freeze.html\" title=\"trait core::marker::Freeze\">Freeze</a> for <a class=\"enum\" href=\"cargo_reaper/enum.Cmd.html\" title=\"enum cargo_reaper::Cmd\">Cmd</a>","synthetic":true,"types":["cargo_reaper::Cmd"]}];
-implementors["grim_reaper"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/marker/trait.Freeze.html\" title=\"trait core::marker::Freeze\">Freeze</a> for <a class=\"struct\" href=\"grim_reaper/struct.GrimReaper.html\" title=\"struct grim_reaper::GrimReaper\">GrimReaper</a>","synthetic":true,"types":["grim_reaper::GrimReaper"]}];
-if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
+(function() {var implementors = {
+"cargo_reaper":[["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/marker/trait.Freeze.html\" title=\"trait core::marker::Freeze\">Freeze</a> for <a class=\"enum\" href=\"cargo_reaper/enum.Cmd.html\" title=\"enum cargo_reaper::Cmd\">Cmd</a>",1,["cargo_reaper::Cmd"]]],
+"grim_reaper":[["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/marker/trait.Freeze.html\" title=\"trait core::marker::Freeze\">Freeze</a> for <a class=\"struct\" href=\"grim_reaper/struct.GrimReaper.html\" title=\"struct grim_reaper::GrimReaper\">GrimReaper</a>",1,["grim_reaper::GrimReaper"]]]
+};if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
