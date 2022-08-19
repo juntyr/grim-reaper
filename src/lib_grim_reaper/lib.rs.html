@@ -217,224 +217,224 @@
 <span id="217">217</span>
 <span id="218">218</span>
 <span id="219">219</span>
-</pre><pre class="rust"><code><span class="attribute">#![<span class="ident">deny</span>(<span class="ident">clippy::pedantic</span>)]</span>
+</pre><pre class="rust"><code><span class="attribute">#![deny(clippy::pedantic)]</span>
 
-<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">cmp::Ordering</span>, <span class="ident">ffi::CString</span>};
+<span class="kw">use </span>std::{cmp::Ordering, ffi::CString};
 
-<span class="kw">use</span> <span class="ident">anyhow::Context</span>;
-<span class="kw">use</span> <span class="ident">fork</span>::{<span class="ident">fork</span>, <span class="ident">Fork</span>};
-<span class="kw">use</span> <span class="ident">signal_hook::iterator::Signals</span>;
+<span class="kw">use </span>anyhow::Context;
+<span class="kw">use </span>fork::{fork, Fork};
+<span class="kw">use </span>signal_hook::iterator::Signals;
 
-<span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::too_many_lines</span>)]</span>
-<span class="doccomment">/// # Errors</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Returns an `anyhow::Error` if spawning or executing the reaper fails.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">exec_reaper</span>(<span class="ident">program</span>: <span class="kw-2">&amp;</span><span class="ident">CString</span>, <span class="ident">args</span>: <span class="kw-2">&amp;</span>[<span class="ident">CString</span>]) -&gt; <span class="ident">anyhow::Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="ident">canary_pid</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">libc::getpid</span>() };
+<span class="attribute">#[allow(clippy::too_many_lines)]</span>
+<span class="doccomment">/// # Errors
+///
+/// Returns an `anyhow::Error` if spawning or executing the reaper fails.
+</span><span class="kw">pub fn </span>exec_reaper(program: <span class="kw-2">&amp;</span>CString, args: <span class="kw-2">&amp;</span>[CString]) -&gt; anyhow::Result&lt;()&gt; {
+    <span class="kw">let </span>canary_pid = <span class="kw">unsafe </span>{ libc::getpid() };
 
-    <span class="kw">match</span> <span class="ident">fork</span>()
-        .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">std::io::Error::last_os_error</span>())
-        .<span class="ident">context</span>(<span class="string">&quot;Failed to fork the wrapper into the canary and handler.&quot;</span>)<span class="question-mark">?</span>
-    {
-        <span class="ident">Fork::Parent</span>(<span class="ident">handler_pid</span>) =&gt; {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">signals</span> <span class="op">=</span> <span class="ident">Signals::new</span>(
-                (<span class="number">1</span>..<span class="number">32</span>).<span class="ident">filter</span>(<span class="op">|</span><span class="ident">signal</span><span class="op">|</span> <span class="op">!</span><span class="ident">signal_hook::consts::FORBIDDEN</span>.<span class="ident">contains</span>(<span class="ident">signal</span>)),
+    <span class="kw">match </span>fork()
+        .map_err(|<span class="kw">_</span>| std::io::Error::last_os_error())
+        .context(<span class="string">&quot;Failed to fork the wrapper into the canary and handler.&quot;</span>)<span class="question-mark">?
+    </span>{
+        Fork::Parent(handler_pid) =&gt; {
+            <span class="kw">let </span><span class="kw-2">mut </span>signals = Signals::new(
+                (<span class="number">1</span>..<span class="number">32</span>).filter(|signal| !signal_hook::consts::FORBIDDEN.contains(signal)),
             )
-            .<span class="ident">context</span>(<span class="string">&quot;Failed to install the signal handler in the canary.&quot;</span>)<span class="question-mark">?</span>;
+            .context(<span class="string">&quot;Failed to install the signal handler in the canary.&quot;</span>)<span class="question-mark">?</span>;
 
-            <span class="kw">let</span> <span class="ident">status</span> <span class="op">=</span> <span class="kw">loop</span> {
-                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">status</span> <span class="op">=</span> <span class="number">0</span>;
+            <span class="kw">let </span>status = <span class="kw">loop </span>{
+                <span class="kw">let </span><span class="kw-2">mut </span>status = <span class="number">0</span>;
 
-                <span class="kw">match</span> <span class="kw">unsafe</span> { <span class="ident">libc::waitpid</span>(<span class="ident">handler_pid</span>, <span class="kw-2">&amp;mut</span> <span class="ident">status</span>, <span class="ident">libc::WNOHANG</span>) }.<span class="ident">cmp</span>(<span class="kw-2">&amp;</span><span class="number">0</span>) {
-                    <span class="ident">Ordering::Less</span> =&gt; {
-                        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">std::io::Error::last_os_error</span>())
-                            .<span class="ident">context</span>(<span class="string">&quot;Failed to wait for the handler to terminate.&quot;</span>)
+                <span class="kw">match unsafe </span>{ libc::waitpid(handler_pid, <span class="kw-2">&amp;mut </span>status, libc::WNOHANG) }.cmp(<span class="kw-2">&amp;</span><span class="number">0</span>) {
+                    Ordering::Less =&gt; {
+                        <span class="kw">return </span><span class="prelude-val">Err</span>(std::io::Error::last_os_error())
+                            .context(<span class="string">&quot;Failed to wait for the handler to terminate.&quot;</span>)
                     },
-                    <span class="ident">Ordering::Equal</span> =&gt; (),
-                    <span class="ident">Ordering::Greater</span> =&gt; <span class="kw">break</span> <span class="ident">libc::WEXITSTATUS</span>(<span class="ident">status</span>),
+                    Ordering::Equal =&gt; (),
+                    Ordering::Greater =&gt; <span class="kw">break </span>libc::WEXITSTATUS(status),
                 };
 
-                <span class="kw">for</span> <span class="ident">signal</span> <span class="kw">in</span> <span class="ident">signals</span>.<span class="ident">wait</span>() {
+                <span class="kw">for </span>signal <span class="kw">in </span>signals.wait() {
                     <span class="macro">log::debug!</span>(
                         <span class="string">&quot;The CANARY {} has received the signal {}.&quot;</span>,
-                        <span class="ident">canary_pid</span>,
-                        <span class="ident">signal</span>
+                        canary_pid,
+                        signal
                     );
 
-                    <span class="kw">if</span> <span class="ident">signal</span> <span class="op">!</span><span class="op">=</span> <span class="ident">libc::SIGCHLD</span> {
+                    <span class="kw">if </span>signal != libc::SIGCHLD {
                         <span class="macro">log::debug!</span>(
                             <span class="string">&quot;The CANARY {} will send the signal {} to the HANDLER {}.&quot;</span>,
-                            <span class="ident">handler_pid</span>,
-                            <span class="ident">signal</span>,
-                            <span class="ident">handler_pid</span>
+                            handler_pid,
+                            signal,
+                            handler_pid
                         );
 
-                        <span class="comment">// Error is ignored as the handler may have already terminated</span>
-                        <span class="kw">unsafe</span> { <span class="ident">libc::kill</span>(<span class="ident">handler_pid</span>, <span class="ident">signal</span>) };
+                        <span class="comment">// Error is ignored as the handler may have already terminated
+                        </span><span class="kw">unsafe </span>{ libc::kill(handler_pid, signal) };
                     }
                 }
             };
 
             <span class="macro">log::debug!</span>(
                 <span class="string">&quot;The CANARY {} will exit with status {}.&quot;</span>,
-                <span class="ident">canary_pid</span>,
-                <span class="ident">status</span>
+                canary_pid,
+                status
             );
 
-            <span class="ident">std::process::exit</span>(<span class="ident">status</span>);
+            std::process::exit(status);
         },
-        <span class="ident">Fork::Child</span> =&gt; {
-            <span class="kw">let</span> <span class="ident">handler_pid</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">libc::getpid</span>() };
+        Fork::Child =&gt; {
+            <span class="kw">let </span>handler_pid = <span class="kw">unsafe </span>{ libc::getpid() };
 
-            <span class="kw">unsafe</span> {
-                <span class="kw">if</span> <span class="ident">libc::prctl</span>(<span class="ident">libc::PR_SET_PDEATHSIG</span>, <span class="ident">libc::SIGCHLD</span>) <span class="op">==</span> <span class="op">-</span><span class="number">1</span> {
-                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">std::io::Error::last_os_error</span>())
-                        .<span class="ident">context</span>(<span class="string">&quot;Failed to setup the death signal in the handler.&quot;</span>);
+            <span class="kw">unsafe </span>{
+                <span class="kw">if </span>libc::prctl(libc::PR_SET_PDEATHSIG, libc::SIGCHLD) == -<span class="number">1 </span>{
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(std::io::Error::last_os_error())
+                        .context(<span class="string">&quot;Failed to setup the death signal in the handler.&quot;</span>);
                 }
-                <span class="kw">if</span> <span class="ident">libc::setsid</span>() <span class="op">==</span> <span class="op">-</span><span class="number">1</span> {
-                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">std::io::Error::last_os_error</span>())
-                        .<span class="ident">context</span>(<span class="string">&quot;Failed to create a new process group for the handler.&quot;</span>);
+                <span class="kw">if </span>libc::setsid() == -<span class="number">1 </span>{
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(std::io::Error::last_os_error())
+                        .context(<span class="string">&quot;Failed to create a new process group for the handler.&quot;</span>);
                 }
-                <span class="kw">if</span> <span class="ident">libc::prctl</span>(<span class="ident">libc::PR_SET_CHILD_SUBREAPER</span>, <span class="number">1</span>) <span class="op">==</span> <span class="op">-</span><span class="number">1</span> {
-                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">std::io::Error::last_os_error</span>())
-                        .<span class="ident">context</span>(<span class="string">&quot;Failed to make the handler a sub-reaper for its descendants.&quot;</span>);
+                <span class="kw">if </span>libc::prctl(libc::PR_SET_CHILD_SUBREAPER, <span class="number">1</span>) == -<span class="number">1 </span>{
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(std::io::Error::last_os_error())
+                        .context(<span class="string">&quot;Failed to make the handler a sub-reaper for its descendants.&quot;</span>);
                 }
             }
 
-            <span class="comment">// Check if the canary quit before the handler, if so abort</span>
-            <span class="kw">if</span> <span class="kw">unsafe</span> { <span class="ident">libc::getppid</span>() } <span class="op">!</span><span class="op">=</span> <span class="ident">canary_pid</span> {
+            <span class="comment">// Check if the canary quit before the handler, if so abort
+            </span><span class="kw">if unsafe </span>{ libc::getppid() } != canary_pid {
                 <span class="macro">log::warn!</span>(
                     <span class="string">&quot;The CANARY {} has been terminated before the HANDLER {} could start.&quot;</span>,
-                    <span class="ident">canary_pid</span>,
-                    <span class="ident">handler_pid</span>
+                    canary_pid,
+                    handler_pid
                 );
 
-                <span class="ident">std::process::abort</span>();
+                std::process::abort();
             }
 
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">signals</span> <span class="op">=</span> <span class="ident">Signals::new</span>(
-                (<span class="number">1</span>..<span class="number">32</span>).<span class="ident">filter</span>(<span class="op">|</span><span class="ident">signal</span><span class="op">|</span> <span class="op">!</span><span class="ident">signal_hook::consts::FORBIDDEN</span>.<span class="ident">contains</span>(<span class="ident">signal</span>)),
+            <span class="kw">let </span><span class="kw-2">mut </span>signals = Signals::new(
+                (<span class="number">1</span>..<span class="number">32</span>).filter(|signal| !signal_hook::consts::FORBIDDEN.contains(signal)),
             )
-            .<span class="ident">context</span>(<span class="string">&quot;Failed to install the signal handler in the handler.&quot;</span>)<span class="question-mark">?</span>;
+            .context(<span class="string">&quot;Failed to install the signal handler in the handler.&quot;</span>)<span class="question-mark">?</span>;
 
-            <span class="kw">match</span> <span class="ident">fork</span>()
-                .<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">std::io::Error::last_os_error</span>())
-                .<span class="ident">context</span>(<span class="string">&quot;Failed to fork the wrapper into the handler and worker.&quot;</span>)<span class="question-mark">?</span>
-            {
-                <span class="ident">Fork::Parent</span>(<span class="ident">worker_pid</span>) =&gt; {
-                    <span class="kw">let</span> <span class="ident">status</span> <span class="op">=</span> <span class="lifetime">&#39;outer</span>: <span class="kw">loop</span> {
-                        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">status</span> <span class="op">=</span> <span class="number">0</span>;
+            <span class="kw">match </span>fork()
+                .map_err(|<span class="kw">_</span>| std::io::Error::last_os_error())
+                .context(<span class="string">&quot;Failed to fork the wrapper into the handler and worker.&quot;</span>)<span class="question-mark">?
+            </span>{
+                Fork::Parent(worker_pid) =&gt; {
+                    <span class="kw">let </span>status = <span class="lifetime">&#39;outer</span>: <span class="kw">loop </span>{
+                        <span class="kw">let </span><span class="kw-2">mut </span>status = <span class="number">0</span>;
 
-                        <span class="kw">match</span> <span class="kw">unsafe</span> { <span class="ident">libc::waitpid</span>(<span class="ident">worker_pid</span>, <span class="kw-2">&amp;mut</span> <span class="ident">status</span>, <span class="ident">libc::WNOHANG</span>) }
-                            .<span class="ident">cmp</span>(<span class="kw-2">&amp;</span><span class="number">0</span>)
+                        <span class="kw">match unsafe </span>{ libc::waitpid(worker_pid, <span class="kw-2">&amp;mut </span>status, libc::WNOHANG) }
+                            .cmp(<span class="kw-2">&amp;</span><span class="number">0</span>)
                         {
-                            <span class="ident">Ordering::Less</span> =&gt; {
-                                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">std::io::Error::last_os_error</span>())
-                                    .<span class="ident">context</span>(<span class="string">&quot;Failed to wait for the worker to terminate.&quot;</span>)
+                            Ordering::Less =&gt; {
+                                <span class="kw">return </span><span class="prelude-val">Err</span>(std::io::Error::last_os_error())
+                                    .context(<span class="string">&quot;Failed to wait for the worker to terminate.&quot;</span>)
                             },
-                            <span class="ident">Ordering::Equal</span> =&gt; (),
-                            <span class="ident">Ordering::Greater</span> =&gt; <span class="kw">break</span> <span class="ident">status</span>,
+                            Ordering::Equal =&gt; (),
+                            Ordering::Greater =&gt; <span class="kw">break </span>status,
                         };
 
-                        <span class="kw">for</span> <span class="ident">signal</span> <span class="kw">in</span> <span class="ident">signals</span>.<span class="ident">wait</span>() {
+                        <span class="kw">for </span>signal <span class="kw">in </span>signals.wait() {
                             <span class="macro">log::debug!</span>(
                                 <span class="string">&quot;The HANDLER {} has received the signal {}.&quot;</span>,
-                                <span class="ident">handler_pid</span>,
-                                <span class="ident">signal</span>
+                                handler_pid,
+                                signal
                             );
 
-                            <span class="kw">if</span> <span class="ident">signal</span> <span class="op">!</span><span class="op">=</span> <span class="ident">libc::SIGCHLD</span> {
+                            <span class="kw">if </span>signal != libc::SIGCHLD {
                                 <span class="macro">log::debug!</span>(
                                     <span class="string">&quot;The HANDLER {} will send the signal {} to the WORKER group \
                                      {}.&quot;</span>,
-                                    <span class="ident">handler_pid</span>,
-                                    <span class="ident">signal</span>,
-                                    <span class="ident">worker_pid</span>
+                                    handler_pid,
+                                    signal,
+                                    worker_pid
                                 );
 
-                                <span class="kw">unsafe</span> {
-                                    <span class="comment">// Error is ignored as the worker may have already terminated</span>
-                                    <span class="ident">libc::kill</span>(<span class="op">-</span><span class="ident">worker_pid</span>, <span class="ident">signal</span>);
+                                <span class="kw">unsafe </span>{
+                                    <span class="comment">// Error is ignored as the worker may have already terminated
+                                    </span>libc::kill(-worker_pid, signal);
                                 }
-                            } <span class="kw">else</span> <span class="kw">if</span> <span class="kw">unsafe</span> { <span class="ident">libc::getppid</span>() } <span class="op">!</span><span class="op">=</span> <span class="ident">canary_pid</span> {
+                            } <span class="kw">else if unsafe </span>{ libc::getppid() } != canary_pid {
                                 <span class="macro">log::debug!</span>(
                                     <span class="string">&quot;The HANDLER {} has been informed that the CANARY {} has died.&quot;</span>,
-                                    <span class="ident">handler_pid</span>,
-                                    <span class="ident">canary_pid</span>
+                                    handler_pid,
+                                    canary_pid
                                 );
                                 <span class="macro">log::debug!</span>(
                                     <span class="string">&quot;The HANDLER {} will terminate the WORKER group {}.&quot;</span>,
-                                    <span class="ident">handler_pid</span>,
-                                    <span class="ident">worker_pid</span>
+                                    handler_pid,
+                                    worker_pid
                                 );
 
-                                <span class="comment">// Error is ignored as the worker may have already terminated</span>
-                                <span class="kw">unsafe</span> {
-                                    <span class="ident">libc::kill</span>(<span class="op">-</span><span class="ident">worker_pid</span>, <span class="ident">libc::SIGKILL</span>);
+                                <span class="comment">// Error is ignored as the worker may have already terminated
+                                </span><span class="kw">unsafe </span>{
+                                    libc::kill(-worker_pid, libc::SIGKILL);
                                 }
 
                                 <span class="macro">log::debug!</span>(
                                     <span class="string">&quot;The HANDLER {} will wait for the WORKER leader {}.&quot;</span>,
-                                    <span class="ident">handler_pid</span>,
-                                    <span class="ident">worker_pid</span>
+                                    handler_pid,
+                                    worker_pid
                                 );
 
-                                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">status</span> <span class="op">=</span> <span class="number">0</span>;
-                                <span class="kw">if</span> <span class="kw">unsafe</span> { <span class="ident">libc::waitpid</span>(<span class="ident">worker_pid</span>, <span class="kw-2">&amp;mut</span> <span class="ident">status</span>, <span class="number">0</span>) } <span class="op">&gt;</span> <span class="number">0</span> {
-                                    <span class="kw">break</span> <span class="lifetime">&#39;outer</span> <span class="ident">status</span>;
+                                <span class="kw">let </span><span class="kw-2">mut </span>status = <span class="number">0</span>;
+                                <span class="kw">if unsafe </span>{ libc::waitpid(worker_pid, <span class="kw-2">&amp;mut </span>status, <span class="number">0</span>) } &gt; <span class="number">0 </span>{
+                                    <span class="kw">break </span><span class="lifetime">&#39;outer </span>status;
                                 }
 
-                                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">std::io::Error::last_os_error</span>())
-                                    .<span class="ident">context</span>(<span class="string">&quot;Failed to wait for the worker to terminate.&quot;</span>);
+                                <span class="kw">return </span><span class="prelude-val">Err</span>(std::io::Error::last_os_error())
+                                    .context(<span class="string">&quot;Failed to wait for the worker to terminate.&quot;</span>);
                             }
                         }
                     };
 
                     <span class="macro">log::debug!</span>(
                         <span class="string">&quot;The HANDLER {} will wait for the WORKER group {}.&quot;</span>,
-                        <span class="ident">handler_pid</span>,
-                        <span class="ident">worker_pid</span>
+                        handler_pid,
+                        worker_pid
                     );
 
-                    <span class="comment">// Error means that we haved waited for all children</span>
-                    <span class="kw">while</span> <span class="kw">unsafe</span> { <span class="ident">libc::waitpid</span>(<span class="op">-</span><span class="number">1</span>, <span class="ident">std::ptr::null_mut</span>(), <span class="ident">libc::WNOHANG</span>) } <span class="op">&gt;</span><span class="op">=</span> <span class="number">0</span> {}
+                    <span class="comment">// Error means that we haved waited for all children
+                    </span><span class="kw">while unsafe </span>{ libc::waitpid(-<span class="number">1</span>, std::ptr::null_mut(), libc::WNOHANG) } &gt;= <span class="number">0 </span>{}
 
                     <span class="macro">log::debug!</span>(
                         <span class="string">&quot;The HANDLER {} will exit with status {}.&quot;</span>,
-                        <span class="ident">handler_pid</span>,
-                        <span class="ident">status</span>
+                        handler_pid,
+                        status
                     );
 
-                    <span class="ident">std::process::exit</span>(<span class="ident">status</span>);
+                    std::process::exit(status);
                 },
-                <span class="ident">Fork::Child</span> =&gt; {
-                    <span class="kw">let</span> <span class="ident">worker_pid</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">libc::getpid</span>() };
+                Fork::Child =&gt; {
+                    <span class="kw">let </span>worker_pid = <span class="kw">unsafe </span>{ libc::getpid() };
 
-                    <span class="kw">if</span> <span class="kw">unsafe</span> { <span class="ident">libc::setsid</span>() } <span class="op">==</span> <span class="op">-</span><span class="number">1</span> {
-                        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">std::io::Error::last_os_error</span>())
-                            .<span class="ident">context</span>(<span class="string">&quot;Failed to create a new process group for the worker.&quot;</span>);
+                    <span class="kw">if unsafe </span>{ libc::setsid() } == -<span class="number">1 </span>{
+                        <span class="kw">return </span><span class="prelude-val">Err</span>(std::io::Error::last_os_error())
+                            .context(<span class="string">&quot;Failed to create a new process group for the worker.&quot;</span>);
                     }
 
                     <span class="macro">log::debug!</span>(
                         <span class="string">&quot;The WORKER {} will execute the {:?} command.&quot;</span>,
-                        <span class="ident">worker_pid</span>,
-                        <span class="ident">args</span>
+                        worker_pid,
+                        args
                     );
 
-                    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">args</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw-2">*const</span> <span class="ident">libc::c_char</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">std::iter::once</span>(<span class="ident">program</span>.<span class="ident">as_ptr</span>())
-                        .<span class="ident">chain</span>(<span class="ident">args</span>.<span class="ident">iter</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span>.<span class="ident">as_ptr</span>()))
-                        .<span class="ident">collect</span>();
-                    <span class="ident">args</span>.<span class="ident">push</span>(<span class="ident">std::ptr::null</span>());
+                    <span class="kw">let </span><span class="kw-2">mut </span>args: Vec&lt;<span class="kw-2">*const </span>libc::c_char&gt; = std::iter::once(program.as_ptr())
+                        .chain(args.iter().map(|s| s.as_ptr()))
+                        .collect();
+                    args.push(std::ptr::null());
 
-                    <span class="comment">// `execvp` only returns on error</span>
-                    <span class="kw">unsafe</span> { <span class="ident">libc::execvp</span>(<span class="ident">program</span>.<span class="ident">as_ptr</span>(), <span class="ident">args</span>.<span class="ident">as_ptr</span>()) };
+                    <span class="comment">// `execvp` only returns on error
+                    </span><span class="kw">unsafe </span>{ libc::execvp(program.as_ptr(), args.as_ptr()) };
 
-                    <span class="prelude-val">Err</span>(<span class="ident">std::io::Error::last_os_error</span>())
-                        .<span class="ident">context</span>(<span class="string">&quot;Failed to execute the command in the worker.&quot;</span>)
+                    <span class="prelude-val">Err</span>(std::io::Error::last_os_error())
+                        .context(<span class="string">&quot;Failed to execute the command in the worker.&quot;</span>)
                 },
             }
         },
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="lib_grim_reaper" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (29e4a9ee0 2022-08-10)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="lib_grim_reaper" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (0b79f758c 2022-08-18)" ></div></body></html>
