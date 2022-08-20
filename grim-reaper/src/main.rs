@@ -1,27 +1,27 @@
 #![deny(clippy::pedantic)]
 
 use std::{
-    ffi::{CString, OsStr, OsString},
+    ffi::{CString, OsStr},
     os::unix::prelude::OsStrExt,
 };
 
-use structopt::StructOpt;
+use clap::Parser;
 
-#[derive(Debug, StructOpt)]
-#[structopt(
+#[derive(Debug, Parser)]
+#[clap(
     about = "grim-reaper is a Linux-only wrapper program to cleanly sigkill its inner deep \
              process tree.",
-    setting(structopt::clap::AppSettings::AllowLeadingHyphen)
+    setting(clap::AppSettings::AllowLeadingHyphen)
 )]
 struct GrimReaper {
-    #[structopt(parse(try_from_os_str = cstring_from_osstr))]
+    #[clap(parse(try_from_os_str = cstring_from_osstr))]
     program: CString,
-    #[structopt(parse(try_from_os_str = cstring_from_osstr), multiple = true)]
+    #[clap(parse(try_from_os_str = cstring_from_osstr), multiple = true)]
     args: Vec<CString>,
 }
 
-fn cstring_from_osstr(os: &OsStr) -> Result<CString, OsString> {
-    CString::new(os.as_bytes().to_owned()).map_err(|_| os.to_owned())
+fn cstring_from_osstr(os: &OsStr) -> anyhow::Result<CString> {
+    CString::new(os.as_bytes().to_owned()).map_err(|_| anyhow::anyhow!("{:?}", os))
 }
 
 fn main() -> anyhow::Result<()> {
