@@ -44,31 +44,31 @@
 </pre><pre class="rust"><code><span class="attribute">#![deny(clippy::pedantic)]</span>
 
 <span class="kw">use </span>std::{
-    ffi::{CString, OsStr, OsString},
+    ffi::{CString, OsStr},
     os::unix::prelude::OsStrExt,
 };
 
-<span class="kw">use </span>structopt::StructOpt;
+<span class="kw">use </span>clap::Parser;
 
-<span class="attribute">#[derive(Debug, StructOpt)]</span>
-<span class="attribute">#[structopt(bin_name = <span class="string">&quot;cargo&quot;</span>)]</span>
+<span class="attribute">#[derive(Debug, Parser)]</span>
+<span class="attribute">#[clap(bin_name = <span class="string">&quot;cargo&quot;</span>)]</span>
 <span class="kw">enum </span>Cmd {
-    <span class="attribute">#[structopt(
+    <span class="attribute">#[clap(
         name = <span class="string">&quot;reaper&quot;</span>,
         about = <span class="string">&quot;cargo reaper is a Linux-only cargo subcommand wrapper to cleanly sigkill its \
                  inner process tree.&quot;</span>,
-        setting(structopt::clap::AppSettings::AllowLeadingHyphen)
+        setting(clap::AppSettings::AllowLeadingHyphen)
     )]</span>
     Reaper {
-        <span class="attribute">#[structopt(parse(try_from_os_str = cstring_from_osstr))]</span>
+        <span class="attribute">#[clap(parse(try_from_os_str = cstring_from_osstr))]</span>
         program: CString,
-        <span class="attribute">#[structopt(parse(try_from_os_str = cstring_from_osstr), multiple = <span class="bool-val">true</span>)]</span>
+        <span class="attribute">#[clap(parse(try_from_os_str = cstring_from_osstr), multiple = <span class="bool-val">true</span>)]</span>
         args: Vec&lt;CString&gt;,
     },
 }
 
-<span class="kw">fn </span>cstring_from_osstr(os: <span class="kw-2">&amp;</span>OsStr) -&gt; <span class="prelude-ty">Result</span>&lt;CString, OsString&gt; {
-    CString::new(os.as_bytes().to_owned()).map_err(|<span class="kw">_</span>| os.to_owned())
+<span class="kw">fn </span>cstring_from_osstr(os: <span class="kw-2">&amp;</span>OsStr) -&gt; anyhow::Result&lt;CString&gt; {
+    CString::new(os.as_bytes().to_owned()).map_err(|<span class="kw">_</span>| <span class="macro">anyhow::anyhow!</span>(<span class="string">&quot;{:?}&quot;</span>, os))
 }
 
 <span class="kw">fn </span>main() -&gt; anyhow::Result&lt;()&gt; {
@@ -85,4 +85,4 @@
     lib_grim_reaper::exec_reaper(<span class="kw-2">&amp;</span>program, <span class="kw-2">&amp;</span>args)
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="cargo_reaper" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (0b79f758c 2022-08-18)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="cargo_reaper" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (e1b28cd2f 2022-08-19)" ></div></body></html>
