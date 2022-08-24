@@ -217,16 +217,16 @@
 <span id="217">217</span>
 <span id="218">218</span>
 <span id="219">219</span>
-</pre><pre class="rust"><code><span class="attribute">#![deny(clippy::pedantic)]</span>
+</pre><pre class="rust"><code><span class="attribute">#![deny(clippy::pedantic)]
 
-<span class="kw">use </span>std::{cmp::Ordering, ffi::CString};
+</span><span class="kw">use </span>std::{cmp::Ordering, ffi::CString};
 
 <span class="kw">use </span>anyhow::Context;
 <span class="kw">use </span>fork::{fork, Fork};
 <span class="kw">use </span>signal_hook::iterator::Signals;
 
-<span class="attribute">#[allow(clippy::too_many_lines)]</span>
-<span class="doccomment">/// # Errors
+<span class="attribute">#[allow(clippy::too_many_lines)]
+</span><span class="doccomment">/// # Errors
 ///
 /// Returns an `anyhow::Error` if spawning or executing the reaper fails.
 </span><span class="kw">pub fn </span>exec_reaper(program: <span class="kw-2">&amp;</span>CString, args: <span class="kw-2">&amp;</span>[CString]) -&gt; anyhow::Result&lt;()&gt; {
@@ -437,4 +437,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="lib_grim_reaper" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (e1b28cd2f 2022-08-19)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="lib_grim_reaper" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (060e47f74 2022-08-23)" ></div></body></html>
