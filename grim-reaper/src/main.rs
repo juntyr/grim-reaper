@@ -1,8 +1,8 @@
 #![deny(clippy::pedantic)]
 
 use std::{
-    ffi::{CString, OsStr},
-    os::unix::prelude::OsStrExt,
+    ffi::{CString, OsStr, OsString},
+    os::unix::prelude::{OsStrExt, OsStringExt},
 };
 
 use clap::Parser;
@@ -10,24 +10,47 @@ use clap::Parser;
 #[derive(Debug, Parser)]
 #[clap(
     about = "grim-reaper is a Linux-only wrapper program to cleanly sigkill its inner deep \
-             process tree.",
-    setting(clap::AppSettings::AllowLeadingHyphen)
+             process tree."
 )]
 struct GrimReaper {
-    #[clap(parse(try_from_os_str = cstring_from_osstr))]
+    #[arg(value_parser = CStringValueParser)]
     program: CString,
-    #[clap(parse(try_from_os_str = cstring_from_osstr), multiple = true)]
+    #[arg(allow_hyphen_values = true)]
+    #[arg(value_parser = CStringValueParser)]
     args: Vec<CString>,
 }
 
-fn cstring_from_osstr(os: &OsStr) -> anyhow::Result<CString> {
-    CString::new(os.as_bytes().to_owned()).map_err(|_| anyhow::anyhow!("{:?}", os))
+#[derive(Clone)]
+struct CStringValueParser;
+
+impl clap::builder::TypedValueParser for CStringValueParser {
+    type Value = CString;
+
+    fn parse_ref(
+        &self,
+        _cmd: &clap::Command,
+        _arg: Option<&clap::Arg>,
+        value: &OsStr,
+    ) -> Result<Self::Value, clap::Error> {
+        CString::new(value.as_bytes().to_owned())
+            .map_err(|err| clap::Error::raw(clap::error::ErrorKind::ValueValidation, err))
+    }
+
+    fn parse(
+        &self,
+        _cmd: &clap::Command,
+        _arg: Option<&clap::Arg>,
+        value: OsString,
+    ) -> Result<Self::Value, clap::Error> {
+        CString::new(value.into_vec())
+            .map_err(|err| clap::Error::raw(clap::error::ErrorKind::ValueValidation, err))
+    }
 }
 
 fn main() -> anyhow::Result<()> {
     pretty_env_logger::init();
 
-    let opt = GrimReaper::from_args();
+    let opt = GrimReaper::parse();
 
     lib_grim_reaper::exec_reaper(&opt.program, &opt.args)
 }
