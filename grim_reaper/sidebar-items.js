@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"fn":[["cstring_from_osstr",""],["main",""]],"struct":[["GrimReaper",""]]};
+window.SIDEBAR_ITEMS = {"fn":[["main",""]],"struct":[["CStringValueParser",""],["GrimReaper",""]]};
