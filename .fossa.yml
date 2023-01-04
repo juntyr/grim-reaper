@@ -3,7 +3,7 @@ version: 2
 cli:
   server: https://app.fossa.com
   fetcher: git
-  project: https://github.com/MomoLangenstein/grim-reaper.git
+  project: https://github.com/juntyr/grim-reaper.git
 
 analyze:
   modules:

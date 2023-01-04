@@ -5,10 +5,10 @@ default-members = [".", "grim-reaper", "cargo-reaper"]
 [package]
 name = "lib-grim-reaper"
 version = "0.1.0"
-authors = ["Momo Langenstein <momo.langenstein@helsinki.fi>"]
+authors = ["Juniper Tyree <juniper.langenstein@helsinki.fi>"]
 license = "MIT OR Apache-2.0"
 edition = "2021"
-repository = "https://github.com/MomoLangenstein/grim-reaper/"
+repository = "https://github.com/juntyr/grim-reaper/"
 exclude = ["/.github", "/.vscode", "/.fossa.yml", "/.gitpod.yml", "/rust-toolchain", "/rustfmt.toml"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html

@@ -1,19 +1,19 @@
 # grim-reaper &emsp; [![CI Status]][workflow] [![Rust Doc]][docs] [![License Status]][fossa] [![Code Coverage]][codecov] [![Gitpod Ready-to-Code]][gitpod]
 
-[CI Status]: https://img.shields.io/github/workflow/status/MomoLangenstein/grim-reaper/CI/main?label=CI
-[workflow]: https://github.com/MomoLangenstein/grim-reaper/actions/workflows/ci.yml?query=branch%3Amain
+[CI Status]: https://img.shields.io/github/actions/workflow/status/juntyr/grim-reaper/ci.yml?branch=main
+[workflow]: https://github.com/juntyr/grim-reaper/actions/workflows/ci.yml?query=branch%3Amain
 
 [Rust Doc]: https://img.shields.io/badge/docs-main-blue
-[docs]: https://momolangenstein.github.io/grim-reaper/
+[docs]: https://juntyr.github.io/grim-reaper/
 
-[License Status]: https://app.fossa.com/api/projects/git%2Bgithub.com%2FMomoLangenstein%2Fgrim-reaper.svg?type=shield
-[fossa]: https://app.fossa.com/projects/git%2Bgithub.com%2FMomoLangenstein%2Fgrim-reaper?ref=badge_shield
+[License Status]: https://app.fossa.com/api/projects/git%2Bgithub.com%2Fjuntyr%2Fgrim-reaper.svg?type=shield
+[fossa]: https://app.fossa.com/projects/git%2Bgithub.com%2Fjuntyr%2Fgrim-reaper?ref=badge_shield
 
-[Code Coverage]: https://img.shields.io/codecov/c/github/MomoLangenstein/grim-reaper?token=6F3K1L1PO4
-[codecov]: https://codecov.io/gh/MomoLangenstein/grim-reaper
+[Code Coverage]: https://img.shields.io/codecov/c/github/juntyr/grim-reaper?token=6F3K1L1PO4
+[codecov]: https://codecov.io/gh/juntyr/grim-reaper
 
 [Gitpod Ready-to-Code]: https://img.shields.io/badge/Gitpod-ready-blue?logo=gitpod
-[gitpod]: https://gitpod.io/#https://github.com/MomoLangenstein/grim-reaper
+[gitpod]: https://gitpod.io/#https://github.com/juntyr/grim-reaper
 
 `grim-reaper` is a Linux-only wrapper program that forwards signals to all its descendants as even when the signal is only sent to the wrapper itself. In particular, this means that a program with a deep process tree can be cleanly sigkilled.
 
