@@ -6,8 +6,8 @@
 [Rust Doc]: https://img.shields.io/badge/docs-main-blue
 [docs]: https://juntyr.github.io/grim-reaper/
 
-[License Status]: https://app.fossa.com/api/projects/git%2Bgithub.com%2Fjuntyr%2Fgrim-reaper.svg?type=shield
-[fossa]: https://app.fossa.com/projects/git%2Bgithub.com%2Fjuntyr%2Fgrim-reaper?ref=badge_shield
+[License Status]: https://app.fossa.com/api/projects/custom%2B26490%2Fgithub.com%2Fjuntyr%2Fgrim-reaper.svg?type=shield
+[fossa]: https://app.fossa.com/projects/custom%2B26490%2Fgithub.com%2Fjuntyr%2Fgrim-reaper?ref=badge_shield
 
 [Code Coverage]: https://img.shields.io/codecov/c/github/juntyr/grim-reaper?token=6F3K1L1PO4
 [codecov]: https://codecov.io/gh/juntyr/grim-reaper
