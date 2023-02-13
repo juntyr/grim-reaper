@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":[["Cmd",""]],"fn":[["main",""]],"struct":[["CStringValueParser",""]]};
+window.SIDEBAR_ITEMS = {"enum":["Cmd"],"fn":["main"],"struct":["CStringValueParser"]};
