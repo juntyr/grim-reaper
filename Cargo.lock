@@ -129,9 +129,9 @@ dependencies = [
 
 [[package]]
 name = "fork"
-version = "0.1.20"
+version = "0.1.21"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9788ce090af4bf8d6e8f43d3f7d12305c787456387bd2d88856fcda3aa1f0dca"
+checksum = "eaf4b001d25ec51f755157ecffa208b342747ea9a4365df5438b12925c7f0056"
 dependencies = [
  "libc",
 ]
@@ -214,9 +214,9 @@ dependencies = [
 
 [[package]]
 name = "libc"
-version = "0.2.134"
+version = "0.2.140"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "329c933548736bc49fd575ee68c89e8be4d260064184389a5b77517cddd99ffb"
+checksum = "99227334921fae1a979cf0bfdfcc6b3e5ce376ef57e16fb6fb3ea2ed6095f80c"
 
 [[package]]
 name = "linux-raw-sys"
