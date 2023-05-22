@@ -10,6 +10,6 @@ edition = "2021"
 [dependencies]
 anyhow = "1.0"
 pretty_env_logger = "0.5"
-clap = { version = "4.2", features = ["derive"] }
+clap = { version = "4.3", features = ["derive"] }
 
 lib-grim-reaper = { path = ".." }
