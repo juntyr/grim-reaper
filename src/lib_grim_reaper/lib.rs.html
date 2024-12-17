@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/lib.rs`."><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9ee3a5e31a2afa3e.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="lib_grim_reaper" data-themes="" data-resource-suffix="" data-rustdoc-version="1.75.0-nightly (df871fbf0 2023-10-24)" data-channel="nightly" data-search-js="search-8fbf244ebcf71464.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-5f34af1a0ee6bacd.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/lib.rs`."><title>lib.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-6b053e98.ttf.woff2,FiraSans-Regular-0fe48ade.woff2,FiraSans-Medium-e1aa3f0a.woff2,SourceCodePro-Regular-8badfe75.ttf.woff2,SourceCodePro-Semibold-aa29a496.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../static.files/normalize-9960930a.css"><link rel="stylesheet" href="../../static.files/rustdoc-46132b98.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="lib_grim_reaper" data-themes="" data-resource-suffix="" data-rustdoc-version="1.85.0-nightly (6d9f6ae36 2024-12-16)" data-channel="nightly" data-search-js="search-036cda7a.js" data-settings-js="settings-0f613d39.js" ><script src="../../static.files/storage-59e33391.js"></script><script defer src="../../static.files/src-script-56102188.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-5f194d8c.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-893ab5e7.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-6580c154.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-044be391.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1><div class="sub-heading">lib_grim_reaper/</div>lib.rs</h1><rustdoc-toolbar></rustdoc-toolbar></div><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers">
+<a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -216,8 +217,7 @@
 <a href="#216" id="216">216</a>
 <a href="#217" id="217">217</a>
 <a href="#218" id="218">218</a>
-<a href="#219" id="219">219</a>
-</pre></div><pre class="rust"><code><span class="attr">#![deny(clippy::pedantic)]
+<a href="#219" id="219">219</a></pre></div><pre class="rust"><code><span class="attr">#![deny(clippy::pedantic)]
 
 </span><span class="kw">use </span>std::{cmp::Ordering, ffi::CString};
 
@@ -234,13 +234,13 @@
 
     <span class="kw">match </span>fork()
         .map_err(|<span class="kw">_</span>| std::io::Error::last_os_error())
-        .context(<span class="string">&quot;Failed to fork the wrapper into the canary and handler.&quot;</span>)<span class="question-mark">?
+        .context(<span class="string">"Failed to fork the wrapper into the canary and handler."</span>)<span class="question-mark">?
     </span>{
         Fork::Parent(handler_pid) =&gt; {
             <span class="kw">let </span><span class="kw-2">mut </span>signals = Signals::new(
                 (<span class="number">1</span>..<span class="number">32</span>).filter(|signal| !signal_hook::consts::FORBIDDEN.contains(signal)),
             )
-            .context(<span class="string">&quot;Failed to install the signal handler in the canary.&quot;</span>)<span class="question-mark">?</span>;
+            .context(<span class="string">"Failed to install the signal handler in the canary."</span>)<span class="question-mark">?</span>;
 
             <span class="kw">let </span>status = <span class="kw">loop </span>{
                 <span class="kw">let </span><span class="kw-2">mut </span>status = <span class="number">0</span>;
@@ -248,7 +248,7 @@
                 <span class="kw">match unsafe </span>{ libc::waitpid(handler_pid, <span class="kw-2">&amp;mut </span>status, libc::WNOHANG) }.cmp(<span class="kw-2">&amp;</span><span class="number">0</span>) {
                     Ordering::Less =&gt; {
                         <span class="kw">return </span><span class="prelude-val">Err</span>(std::io::Error::last_os_error())
-                            .context(<span class="string">&quot;Failed to wait for the handler to terminate.&quot;</span>)
+                            .context(<span class="string">"Failed to wait for the handler to terminate."</span>)
                     },
                     Ordering::Equal =&gt; (),
                     Ordering::Greater =&gt; <span class="kw">break </span>libc::WEXITSTATUS(status),
@@ -256,14 +256,14 @@
 
                 <span class="kw">for </span>signal <span class="kw">in </span>signals.wait() {
                     <span class="macro">log::debug!</span>(
-                        <span class="string">&quot;The CANARY {} has received the signal {}.&quot;</span>,
+                        <span class="string">"The CANARY {} has received the signal {}."</span>,
                         canary_pid,
                         signal
                     );
 
                     <span class="kw">if </span>signal != libc::SIGCHLD {
                         <span class="macro">log::debug!</span>(
-                            <span class="string">&quot;The CANARY {} will send the signal {} to the HANDLER {}.&quot;</span>,
+                            <span class="string">"The CANARY {} will send the signal {} to the HANDLER {}."</span>,
                             handler_pid,
                             signal,
                             handler_pid
@@ -276,7 +276,7 @@
             };
 
             <span class="macro">log::debug!</span>(
-                <span class="string">&quot;The CANARY {} will exit with status {}.&quot;</span>,
+                <span class="string">"The CANARY {} will exit with status {}."</span>,
                 canary_pid,
                 status
             );
@@ -289,22 +289,22 @@
             <span class="kw">unsafe </span>{
                 <span class="kw">if </span>libc::prctl(libc::PR_SET_PDEATHSIG, libc::SIGCHLD) == -<span class="number">1 </span>{
                     <span class="kw">return </span><span class="prelude-val">Err</span>(std::io::Error::last_os_error())
-                        .context(<span class="string">&quot;Failed to setup the death signal in the handler.&quot;</span>);
+                        .context(<span class="string">"Failed to setup the death signal in the handler."</span>);
                 }
                 <span class="kw">if </span>libc::setsid() == -<span class="number">1 </span>{
                     <span class="kw">return </span><span class="prelude-val">Err</span>(std::io::Error::last_os_error())
-                        .context(<span class="string">&quot;Failed to create a new process group for the handler.&quot;</span>);
+                        .context(<span class="string">"Failed to create a new process group for the handler."</span>);
                 }
                 <span class="kw">if </span>libc::prctl(libc::PR_SET_CHILD_SUBREAPER, <span class="number">1</span>) == -<span class="number">1 </span>{
                     <span class="kw">return </span><span class="prelude-val">Err</span>(std::io::Error::last_os_error())
-                        .context(<span class="string">&quot;Failed to make the handler a sub-reaper for its descendants.&quot;</span>);
+                        .context(<span class="string">"Failed to make the handler a sub-reaper for its descendants."</span>);
                 }
             }
 
             <span class="comment">// Check if the canary quit before the handler, if so abort
             </span><span class="kw">if unsafe </span>{ libc::getppid() } != canary_pid {
                 <span class="macro">log::warn!</span>(
-                    <span class="string">&quot;The CANARY {} has been terminated before the HANDLER {} could start.&quot;</span>,
+                    <span class="string">"The CANARY {} has been terminated before the HANDLER {} could start."</span>,
                     canary_pid,
                     handler_pid
                 );
@@ -315,14 +315,14 @@
             <span class="kw">let </span><span class="kw-2">mut </span>signals = Signals::new(
                 (<span class="number">1</span>..<span class="number">32</span>).filter(|signal| !signal_hook::consts::FORBIDDEN.contains(signal)),
             )
-            .context(<span class="string">&quot;Failed to install the signal handler in the handler.&quot;</span>)<span class="question-mark">?</span>;
+            .context(<span class="string">"Failed to install the signal handler in the handler."</span>)<span class="question-mark">?</span>;
 
             <span class="kw">match </span>fork()
                 .map_err(|<span class="kw">_</span>| std::io::Error::last_os_error())
-                .context(<span class="string">&quot;Failed to fork the wrapper into the handler and worker.&quot;</span>)<span class="question-mark">?
+                .context(<span class="string">"Failed to fork the wrapper into the handler and worker."</span>)<span class="question-mark">?
             </span>{
                 Fork::Parent(worker_pid) =&gt; {
-                    <span class="kw">let </span>status = <span class="lifetime">&#39;outer</span>: <span class="kw">loop </span>{
+                    <span class="kw">let </span>status = <span class="lifetime">'outer</span>: <span class="kw">loop </span>{
                         <span class="kw">let </span><span class="kw-2">mut </span>status = <span class="number">0</span>;
 
                         <span class="kw">match unsafe </span>{ libc::waitpid(worker_pid, <span class="kw-2">&amp;mut </span>status, libc::WNOHANG) }
@@ -330,7 +330,7 @@
                         {
                             Ordering::Less =&gt; {
                                 <span class="kw">return </span><span class="prelude-val">Err</span>(std::io::Error::last_os_error())
-                                    .context(<span class="string">&quot;Failed to wait for the worker to terminate.&quot;</span>)
+                                    .context(<span class="string">"Failed to wait for the worker to terminate."</span>)
                             },
                             Ordering::Equal =&gt; (),
                             Ordering::Greater =&gt; <span class="kw">break </span>status,
@@ -338,15 +338,15 @@
 
                         <span class="kw">for </span>signal <span class="kw">in </span>signals.wait() {
                             <span class="macro">log::debug!</span>(
-                                <span class="string">&quot;The HANDLER {} has received the signal {}.&quot;</span>,
+                                <span class="string">"The HANDLER {} has received the signal {}."</span>,
                                 handler_pid,
                                 signal
                             );
 
                             <span class="kw">if </span>signal != libc::SIGCHLD {
                                 <span class="macro">log::debug!</span>(
-                                    <span class="string">&quot;The HANDLER {} will send the signal {} to the WORKER group \
-                                     {}.&quot;</span>,
+                                    <span class="string">"The HANDLER {} will send the signal {} to the WORKER group \
+                                     {}."</span>,
                                     handler_pid,
                                     signal,
                                     worker_pid
@@ -358,12 +358,12 @@
                                 }
                             } <span class="kw">else if unsafe </span>{ libc::getppid() } != canary_pid {
                                 <span class="macro">log::debug!</span>(
-                                    <span class="string">&quot;The HANDLER {} has been informed that the CANARY {} has died.&quot;</span>,
+                                    <span class="string">"The HANDLER {} has been informed that the CANARY {} has died."</span>,
                                     handler_pid,
                                     canary_pid
                                 );
                                 <span class="macro">log::debug!</span>(
-                                    <span class="string">&quot;The HANDLER {} will terminate the WORKER group {}.&quot;</span>,
+                                    <span class="string">"The HANDLER {} will terminate the WORKER group {}."</span>,
                                     handler_pid,
                                     worker_pid
                                 );
@@ -374,24 +374,24 @@
                                 }
 
                                 <span class="macro">log::debug!</span>(
-                                    <span class="string">&quot;The HANDLER {} will wait for the WORKER leader {}.&quot;</span>,
+                                    <span class="string">"The HANDLER {} will wait for the WORKER leader {}."</span>,
                                     handler_pid,
                                     worker_pid
                                 );
 
                                 <span class="kw">let </span><span class="kw-2">mut </span>status = <span class="number">0</span>;
                                 <span class="kw">if unsafe </span>{ libc::waitpid(worker_pid, <span class="kw-2">&amp;mut </span>status, <span class="number">0</span>) } &gt; <span class="number">0 </span>{
-                                    <span class="kw">break </span><span class="lifetime">&#39;outer </span>status;
+                                    <span class="kw">break </span><span class="lifetime">'outer </span>status;
                                 }
 
                                 <span class="kw">return </span><span class="prelude-val">Err</span>(std::io::Error::last_os_error())
-                                    .context(<span class="string">&quot;Failed to wait for the worker to terminate.&quot;</span>);
+                                    .context(<span class="string">"Failed to wait for the worker to terminate."</span>);
                             }
                         }
                     };
 
                     <span class="macro">log::debug!</span>(
-                        <span class="string">&quot;The HANDLER {} will wait for the WORKER group {}.&quot;</span>,
+                        <span class="string">"The HANDLER {} will wait for the WORKER group {}."</span>,
                         handler_pid,
                         worker_pid
                     );
@@ -400,7 +400,7 @@
                     </span><span class="kw">while unsafe </span>{ libc::waitpid(-<span class="number">1</span>, std::ptr::null_mut(), libc::WNOHANG) } &gt;= <span class="number">0 </span>{}
 
                     <span class="macro">log::debug!</span>(
-                        <span class="string">&quot;The HANDLER {} will exit with status {}.&quot;</span>,
+                        <span class="string">"The HANDLER {} will exit with status {}."</span>,
                         handler_pid,
                         status
                     );
@@ -412,11 +412,11 @@
 
                     <span class="kw">if unsafe </span>{ libc::setsid() } == -<span class="number">1 </span>{
                         <span class="kw">return </span><span class="prelude-val">Err</span>(std::io::Error::last_os_error())
-                            .context(<span class="string">&quot;Failed to create a new process group for the worker.&quot;</span>);
+                            .context(<span class="string">"Failed to create a new process group for the worker."</span>);
                     }
 
                     <span class="macro">log::debug!</span>(
-                        <span class="string">&quot;The WORKER {} will execute the {:?} command.&quot;</span>,
+                        <span class="string">"The WORKER {} will execute the {:?} command."</span>,
                         worker_pid,
                         args
                     );
@@ -430,7 +430,7 @@
                     </span><span class="kw">unsafe </span>{ libc::execvp(program.as_ptr(), args.as_ptr()) };
 
                     <span class="prelude-val">Err</span>(std::io::Error::last_os_error())
-                        .context(<span class="string">&quot;Failed to execute the command in the worker.&quot;</span>)
+                        .context(<span class="string">"Failed to execute the command in the worker."</span>)
                 },
             }
         },
