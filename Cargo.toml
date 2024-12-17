@@ -15,7 +15,7 @@ exclude = ["/.github", "/.vscode", "/.fossa.yml", "/.gitpod.yml", "/rust-toolcha
 
 [dependencies]
 anyhow = "1.0"
-fork = "0.1"
+fork = "0.2"
 libc = "0.2"
 signal-hook = "0.3"
 
